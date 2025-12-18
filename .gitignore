@@ -1,0 +1,15 @@
+# 忽略任意深度的 build, install, log 文件夹
+**/build/
+**/install/
+**/log/
+build/
+install/
+log/
+
+# 忽略 Python 缓存
+**/__pycache__/
+**/*.pyc
+
+# 忽略 VS Code
+.vscode/
+**/.vscode/
