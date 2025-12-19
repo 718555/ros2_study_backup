@@ -1,0 +1,29 @@
+{
+    "name": "ROS 2 Dev Container",
+    // 这里使用 ROS 2 Humble (基于 Ubuntu 22.04) 的官方镜像
+    // 如果你之前用的是别的特定镜像，可以修改下面这行
+    "image": "osrf/ros:foxy-desktop",
+
+    // 【关键修改】这里就是为了解决声卡报错添加的参数
+    "runArgs": [
+        "--device", "/dev/snd"
+    ],
+
+    // 容器创建后自动安装依赖 (防止每次 Rebuild 都要手动敲命令)
+    // 如果你不想自动装，可以把这行删掉
+    "postCreateCommand": "sudo apt update && sudo apt install -y espeak-ng libespeak-ng-dev alsa-utils && pip3 install espeakng --break-system-packages",
+
+    "customizations": {
+        "vscode": {
+            // 自动安装常用的 VS Code 插件
+            "extensions": [
+                "ms-python.python",
+                "ms-vscode.cpptools",
+                "ms-iot.vscode-ros"
+            ]
+        }
+    },
+
+    // 使用 root 用户 (解决权限烦恼)
+    "remoteUser": "root"
+}
