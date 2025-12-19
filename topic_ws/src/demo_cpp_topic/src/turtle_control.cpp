@@ -10,9 +10,9 @@ public:
         velocity_publisher_ = this->create_publisher<geometry_msgs::msg::Twist>(
             "/turtle1/cmd_vel", 10);
         
-            pose_subscription_ = this->create_subscription<turtlesim::msg::Pose>(
+        pose_subscription_ = this->create_subscription<turtlesim::msg::Pose>(
             "/turtle1/pose", 10,
-            std::bind(&TurtleController::on_pose_received_, this, std::placeholders::_1));
+        std::bind(&TurtleController::on_pose_received_, this, std::placeholders::_1));
         // 第一个参数话题名字，第二个参数为qos，第三个参数为回调函数（直接用lamada或者新建一个函数）。
         // bind中第一个参数为回调函数的位置，第二个参数为指向当前对象的指针，
         // 第三个参数由于回调函数有传入参数，所以加一个占位符
@@ -53,8 +53,8 @@ private:
 
 
 private:
-    rclcpp::Subscription<turtlesim::msg::Pose>::SharedPtr pose_subscription_; // 发布者的智能指针
-    rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr velocity_publisher_; // 订阅者的智能共享指针
+    rclcpp::Subscription<turtlesim::msg::Pose>::SharedPtr pose_subscription_; // 订阅者的智能指针
+    rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr velocity_publisher_; // 发布者的智能共享指针
     double target_x_{1.0};  // 目标位置X,设置默认值1.0
     double target_y_{1.0};  // 目标位置Y,设置默认值1.0
     double k_{1.0};         // 比例系数，控制输出=误差*比例系数
