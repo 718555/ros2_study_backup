@@ -23,6 +23,25 @@ class FaceDetectorionNode(Node):
         self.model = "hog"
         self.get_logger().info("人脸检测服务已启动")
 
+        # 声明和获取参数
+        self.declare_parameter('face_locations_upsample_times', 1) # 第一个参数为名字第二个参数为值
+        self.declare_parameter('face_locations_model', "hog")
+        self.model = self.get_parameter("face_locations_model").value # 获取参数的值
+        self.upsample_times = self.get_parameter("face_locations_upsample_times").value
+        self.set_parameters([rclpy.Parameter('face_locations_model', rclpy.Parameter.Type.STRING, 'cnn')])
+        self.add_on_set_parameters_callback(self.parameter_callback)
+
+    def parameter_callback(self, parameters):
+        for parameter in parameters:
+            self.get_logger().info(
+                f'参数 {parameter.name} 设置为：{parameter.value}')
+            if parameter.name == 'face_locations_upsample_times':
+                self.upsample_times = parameter.value
+            if parameter.name == 'face_locations_model':
+                self.mode = parameter.value
+        return SetParametersResult(successful=True)
+
+
     def detect_face_callback(self, request, response):
         # 如果客户端传的图像数据为空，则使用resource下的默认数据
         if request.image.data:
