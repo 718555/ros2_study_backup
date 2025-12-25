@@ -37,8 +37,8 @@ class FaceDetectorClient(Node):
         
         # while not future.done():
         #     time.sleep(1.0) # 休眠当前线程，等待服务处理完成===由于ros2默认单线程，这会造成当前线程无法再接受来自服务端的返回，导致永远没有办法完成
-        # rclpy.spin_until_future_complete(self, future) # 等待服务端返回响应 ，为了不阻塞，使用回调函数
-        # 此命令会在后台边去spin边去接收结果
+        # rclpy.spin_until_future_complete(self, future) # 此处回等待服务端返回响应 。为了不阻塞，使用回调函数
+        # 此命令会在后台边去查看future是否完成边去spin接收结果，有结果了就把结果放到future中，这行代码就结束
 
 
         def result_callback(result_future): 
