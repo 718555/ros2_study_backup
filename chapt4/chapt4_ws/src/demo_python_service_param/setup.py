@@ -1,4 +1,5 @@
 from setuptools import setup
+from glob import glob
 
 package_name = 'demo_python_service_param'
 
@@ -11,6 +12,7 @@ setup(
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
         ('share/' + package_name+"/resource", ['resource/default.jpg','resource/test1.jpg']), # 左边为目标地址，右边为default.jpg相对setup.py的路径
+        ('share/' + package_name+'/launch', glob('launch/*.launch.py')),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
