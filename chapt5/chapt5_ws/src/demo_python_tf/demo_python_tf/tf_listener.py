@@ -9,6 +9,8 @@ class TFListener(Node):
     def __init__(self):
         super().__init__("tf2_listener")
         self.buffer_ = Buffer()
+        # 2. 创建监听器 (Listener) # 初始化时传入 buffer 和 node(self)。 
+        # 这行代码一运行，节点就开始在后台疯狂接收 /tf 消息并填入 buffer_
         self.listener_ = TransformListener(self.buffer_, self)
         self.timer_ = self.create_timer(1, self.get_transform)
 
