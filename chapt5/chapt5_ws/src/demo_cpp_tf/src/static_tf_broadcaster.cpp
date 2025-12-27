@@ -34,6 +34,7 @@ class StaticTFBroadcaster : public rclcpp::Node {
 
 int main(int argc, char** argv) {
   rclcpp::init(argc, argv);
+  // auto 自动推导类型，这里实际上是 std::shared_ptr<StaticTFBroadcaster>
   auto node = std::make_shared<StaticTFBroadcaster>();
   rclcpp::spin(node);
   rclcpp::shutdown();
