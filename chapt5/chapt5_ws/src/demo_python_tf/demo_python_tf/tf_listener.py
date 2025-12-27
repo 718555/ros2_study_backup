@@ -22,6 +22,7 @@ class TFListener(Node):
             result = self.buffer_.lookup_transform("base_link", "bottle_link", rclpy.time.Time(seconds=0), rclpy.time.Duration(seconds=1))
             # 查询base_link到bottle_link的坐标变换关系，rclpy.time.Time(seconds=0)表示最新的坐标关系，
             # rclpy.time.Duration为# 超时时间。如果当前buffer里没有数据，我愿意阻塞等待1秒
+            # 如果 1 秒后还没数据，就会抛出异常。
 
             transform = result.transform
             # transform中存储的为四元数，需要转换为欧拉角，此处转换后的顺序为欧拉角：翻滚、俯仰、偏航（roll,pitch,yaw）
