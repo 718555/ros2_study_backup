@@ -30,8 +30,8 @@ def generate_launch_description():
     # 下面命令意思为
     # if startup_rqt:
     #     run:rqt
-    action_topic_list = launch.actions.ExecuteProceses(
-        condition = launch.conditions.IfCondition(startup_rqt),
+    action_topic_list = launch.actions.ExecuteProcess( # ExecuteProcess功能为运行一个普通的终端指令
+        condition = launch.conditions.IfCondition(startup_rqt), # 只有startup_rqt变量被解析为true时，才启动rqt，如果命令行不加参数，rqt就不会弹出来
         cmd = ['rqt'],
     )
 
@@ -39,7 +39,7 @@ def generate_launch_description():
     action_group = launch.actions.GroupAction([
         # 动作5-定时器，定时launch启动的时间
         launch.actions.TimerAction(period=2.0, actions=[action_include_launch]), # 2s时，启动action_include_launch
-        launch.actions.TimerAction(period=2.0, actions=[action_topic_list]), # 4s时，启动 ros2 topic list
+        launch.actions.TimerAction(period=4.0, actions=[action_topic_list]), # 4s时，启动 ros2 topic list
     ])
 
     return launch.LaunchDescription([
