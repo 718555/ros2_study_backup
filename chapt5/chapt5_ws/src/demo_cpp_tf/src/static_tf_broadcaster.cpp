@@ -10,6 +10,7 @@ class StaticTFBroadcaster : public rclcpp::Node {
   StaticTFBroadcaster() : Node("tf_broadcaster_node") {
     // 创建静态广播发发布器并发布
     broadcaster_ = std::make_shared<tf2_ros::StaticTransformBroadcaster>(this);
+    // 构造函数里直接调用发布函数，因为静态 TF 只需要发一次
     this->publish_tf();
   }
 
@@ -33,6 +34,7 @@ class StaticTFBroadcaster : public rclcpp::Node {
 
 int main(int argc, char** argv) {
   rclcpp::init(argc, argv);
+  // auto 自动推导类型，这里实际上是 std::shared_ptr<StaticTFBroadcaster>
   auto node = std::make_shared<StaticTFBroadcaster>();
   rclcpp::spin(node);
   rclcpp::shutdown();

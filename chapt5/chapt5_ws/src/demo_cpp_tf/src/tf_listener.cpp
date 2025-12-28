@@ -13,6 +13,10 @@ class TFListener : public rclcpp::Node {
  public:
   TFListener() : Node("tf_listener") {
     buffer_ = std::make_unique<tf2_ros::Buffer>(this->get_clock());
+    // 2. 初始化 Listener (抓取者)
+    // 监听器创建后会自动订阅 /tf 和 /tf_static 话题。
+    // 注意参数：它需要引用 buffer (*buffer_)，因为它要把抓到的数据存进去。
+    // 传入 `this` 是为了让监听器能使用当前节点的通信能力。
     listener_ = std::make_shared<tf2_ros::TransformListener>(*buffer_, this);
     // timer_ = this->create_wall_timer(5s, std::bind(&TFListener::getTransform, this));
     timer_ = create_wall_timer(10ms, [this]() {
@@ -26,7 +30,8 @@ class TFListener : public rclcpp::Node {
       // 等待变换可用
       const auto transform = buffer_->lookupTransform(
           "base_link", "target_point", this->get_clock()->now(), // 传入当前时刻，超时时间表示1秒钟
-          rclcpp::Duration::from_seconds(1.0f));// 这里的1s是阻塞等待，定时器每1s尝试一次，每次等待1s获取数据，没获取到数据抛出异常
+          rclcpp::Duration::from_seconds(1.0f));// 超时时间。如果当前buffer里没有数据，我愿意阻塞等待1秒
+        // 如果 1 秒后还没数据，就会抛出异常。
 
       // 转换结果及打印
       const auto &translation = transform.transform.translation;
