@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:macro name="wheel_xacro" params="wheel_name xyz">
+        <link name="${wheel_name}_wheel_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="1.57079 0 0" />
+                <!-- 默认为平着放，轮子要竖着放，像翻滚一样，因此需要绕x轴旋转90度 -->
+                <!-- 几何形状 -->
+                <geometry>
+                    <cylinder length="0.04" radius="0.032" />
+                </geometry>
+                <!-- 材质颜色 -->
+                <material name="black">
+                    <color rgba="0.0 0.0 0.0 0.8"/>
+                </material>
+            </visual>
+
+            <collision>
+                <origin xyz="0 0 0" rpy="1.57079 0 0" />
+                <geometry>
+                    <cylinder length="0.04" radius="0.032" />
+                </geometry>
+                <material name="black">
+                    <color rgba="0.0 0.0 0.0 0.8"/>
+                </material>
+            </collision>
+        </link>
+
+        <joint name="${wheel_name}_wheel_joint" type="continuous">
+        <!-- 轮子可以转，因此类型选择可转动的：continuous -->
+            <parent link="base_link" />
+            <child link="${wheel_name}_wheel_link" />
+            <origin xyz="${xyz}" />
+            <axis xyz="0 1 0" /> 
+            <!-- 表示绕y轴旋转 -->
+        </joint>
+    </xacro:macro>
+</robot>

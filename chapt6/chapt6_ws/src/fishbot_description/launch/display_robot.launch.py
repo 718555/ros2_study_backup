@@ -19,7 +19,7 @@ def generate_launch_description():
     
     # 通过文件路径获取文件内容，并转换成参数值对象，以供传入robot_state_publisher_node，生成新的参数
     substitutions_command_result = launch.substitutions.Command(
-            ['cat ', launch.substitutions.LaunchConfiguration('model')]) # 相当于运行cat＋路径，显示文件的内容。需要传入数组，加中括号，cat后面有空格
+            ['xacro ', launch.substitutions.LaunchConfiguration('model')]) # 相当于运行cat＋路径，显示文件的内容。需要传入数组，加中括号，cat后面有空格
     robot_description = launch_ros.parameter_descriptions.ParameterValue(
         substitutions_command_result,value_type=str) 
     # launch_ros.parameter_descriptions.ParameterValue用于转换参数值对象，value_type=str说明返回值是字符串类型
