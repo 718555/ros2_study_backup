@@ -24,7 +24,7 @@ def generate_launch_description():
         substitutions_command_result,value_type=str) 
     # launch_ros.parameter_descriptions.ParameterValue用于转换参数值对象，value_type=str说明返回值是字符串类型
 
-    # 状态发布节点
+    # 状态发布节点,可以把urdf的内容通过robot description这个话题发布
     robot_state_publisher_node = launch_ros.actions.Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',

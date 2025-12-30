@@ -1,0 +1,51 @@
+import launch
+import launch_ros
+from ament_index_python.packages import get_package_share_directory
+from launch.launch_description_sources import PythonLaunchDescriptionSource
+import os
+
+def generate_launch_description():
+    # 获取功能包的share路径
+    robot_name_in_model = "fishbot"
+    urdf_package_path = get_package_share_directory('fishbot_description')
+    # default_model_path = urdf_package_path + '/urdf/fishbot/fishbot.urdf.xacro'
+    # default_world_path = urdf_package_path + '/world/custom_room.world'
+    default_model_path = os.path.join(urdf_package_path,'urdf/fishbot/fishbot.urdf.xacro') # 注意第二个参数前没有/
+    default_world_path = os.path.join(urdf_package_path,'world/custom_room.world')
+    # 为 Launch 声明参数
+    action_declare_arg_mode_path = launch.actions.DeclareLaunchArgument(
+        name='model', default_value=str(default_model_path),
+        description='URDF 的绝对路径')
+    # 获取文件内容生成新的参数
+    robot_description = launch_ros.parameter_descriptions.ParameterValue(
+        launch.substitutions.Command(
+            ['xacro ', launch.substitutions.LaunchConfiguration('model')]),
+        value_type=str)
+  	
+    robot_state_publisher_node = launch_ros.actions.Node(
+        package='robot_state_publisher',
+        executable='robot_state_publisher',
+        parameters=[{'robot_description': robot_description}]
+    )
+
+    # 通过 IncludeLaunchDescription 包含另外一个 launch 文件
+    action_launch_gazebo = launch.actions.IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([get_package_share_directory(
+            'gazebo_ros'), '/launch', '/gazebo.launch.py']),
+      	# 传递参数
+        launch_arguments=[('world', default_world_path),('verbose','true')] #vervose为日志输出级别，true为详细输出
+    )
+    # 请求 Gazebo 加载机器人
+    spawn_entity_node = launch_ros.actions.Node(
+        package='gazebo_ros',
+        executable='spawn_entity.py',
+        arguments=['-topic', '/robot_description',
+                   '-entity', robot_name_in_model,]) # robot_name_in_model为名字
+    
+    
+    return launch.LaunchDescription([
+        action_declare_arg_mode_path,
+        robot_state_publisher_node,
+        action_launch_gazebo,
+        spawn_entity_node,
+    ])

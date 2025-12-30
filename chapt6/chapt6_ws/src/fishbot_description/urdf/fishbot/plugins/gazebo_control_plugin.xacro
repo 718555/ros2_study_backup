@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:macro name="gazebo_control_plugin">
+        <gazebo>
+            <plugin name='diff_drive' filename='libgazebo_ros_diff_drive.so'>
+            <!-- 插件的名字，和插件的文件名，文件名字对应动态链接库，在opt/ros/humble/lib/libgazebo下 -->
+                <ros>
+                    <!-- 命名空间和重映射 -->
+                    <namespace>/</namespace>
+                    <remapping>cmd_vel:=cmd_vel</remapping>
+                    <remapping>odom:=odom</remapping>
+                </ros>
+                <!-- 发布频率，一秒钟发布30次 -->
+                <update_rate>30</update_rate>
+                <!-- wheels -->
+                <left_joint>left_wheel_joint</left_joint>  <!-- 左轮关节名字-->
+                <right_joint>right_wheel_joint</right_joint>  
+                <!-- kinematics -->
+                <wheel_separation>0.2</wheel_separation>  <!-- 轮子之间的距离-->
+                <wheel_diameter>0.064</wheel_diameter>  <!-- 轮子的直径-->
+                <!-- limits -->
+                <max_wheel_torque>20</max_wheel_torque>  <!-- 轮子的最大扭矩-->
+                <max_wheel_acceleration>1.0</max_wheel_acceleration>  <!-- 轮子的最大加速度-->
+                <!-- output -->
+                <publish_odom>true</publish_odom>  <!-- 是否发布里程计，即是否发布odom话题-->
+                <publish_odom_tf>true</publish_odom_tf>  <!-- 是否发布里程计的tf，即/tf话题，动态tf中会描述odom坐标系到base_footprint之间的关系-->
+                <publish_wheel_tf>true</publish_wheel_tf> <!-- 左右两轮的tf数据，主要目的是：轮子在转动的时候我们可以在rviz中看到轮子在转动-->
+
+                <odometry_frame>odom</odometry_frame>  <!-- 里程计数据中的frame_id-->
+                <robot_base_frame>base_footprint</robot_base_frame>  <!-- 发布tf的时候的子坐标系，上面的为父坐标系-->
+            </plugin>
+        </gazebo>
+   </xacro:macro>
+</robot>
