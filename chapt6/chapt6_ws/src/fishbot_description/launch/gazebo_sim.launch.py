@@ -40,7 +40,7 @@ def generate_launch_description():
         package='gazebo_ros',
         executable='spawn_entity.py',
         arguments=['-topic', '/robot_description',
-                   '-entity', robot_name_in_model,]) # robot_name_in_model为名字
+                   '-entity', robot_name_in_model,]) # robot_name_in_model指定机器人在 Gazebo 里的唯一名称（ID）
     
     
     return launch.LaunchDescription([
