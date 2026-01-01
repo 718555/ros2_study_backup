@@ -1,0 +1,7 @@
+controller_manager: # 节点名字
+  ros__parameters:
+    update_rate: 100  # Hz
+    use_sim_time: true
+
+    fishbot_joint_state_broadcaster: # 会自动扫描所有
+      type: joint_state_broadcaster/JointStateBroadcaster # 控制器
