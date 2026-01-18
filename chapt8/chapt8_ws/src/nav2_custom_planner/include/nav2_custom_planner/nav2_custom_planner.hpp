@@ -5,10 +5,10 @@
 #include "geometry_msgs/msg/point.hpp"
 #include "geometry_msgs/msg/pose_stamped.hpp"
 #include "rclcpp/rclcpp.hpp"
-#include "nav2_core/global_planner.hpp"
+#include "nav2_core/global_planner.hpp" // 基类：base_type
 #include "nav2_costmap_2d/costmap_2d_ros.hpp"
-#include "nav2_util/lifecycle_node.hpp"
-#include "nav2_util/robot_utils.hpp"
+#include "nav2_util/lifecycle_node.hpp" // rclcpp的一个子类
+#include "nav2_util/robot_utils.hpp" // 常用工具
 #include "nav_msgs/msg/path.hpp"
 
 namespace nav2_custom_planner {

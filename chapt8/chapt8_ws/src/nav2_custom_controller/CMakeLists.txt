@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(nav2_custom_planner)
+project(nav2_custom_controller)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
@@ -27,7 +27,7 @@ include_directories(include)
 # 定义库名称
 set(library_name ${PROJECT_NAME}_plugin)
 # 创建共享库
-add_library(${library_name} SHARED  src/nav2_custom_planner.cpp)
+add_library(${library_name} SHARED src/custom_controller.cpp)
 # 指定库的依赖关系
 ament_target_dependencies(${library_name} nav2_core pluginlib)
 # 安装库文件到指定目录
@@ -38,8 +38,8 @@ install(TARGETS ${library_name}
 )
 # 安装头文件到指定目录
 install(DIRECTORY include/
-  DESTINATION include/ )
+ DESTINATION include/)
 # 导出插件描述文件
-pluginlib_export_plugin_description_file(nav2_core custom_planner_plugin.xml)
+pluginlib_export_plugin_description_file(nav2_core nav2_custom_controller.xml)
 
 ament_package()
